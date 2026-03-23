@@ -13,6 +13,15 @@ function today(): string {
   return new Date().toISOString().slice(0, 10);
 }
 
+// Only request fields useful for AI coach analysis
+const ACTIVITY_FIELDS = [
+  "id", "start_date_local", "type", "name", "moving_time", "distance",
+  "total_elevation_gain", "icu_training_load", "icu_intensity",
+  "icu_weighted_avg_watts", "icu_average_watts", "average_heartrate",
+  "max_heartrate", "average_cadence", "decoupling", "icu_atl", "icu_ctl",
+  "icu_efficiency_factor", "icu_power_hr", "trainer", "icu_ftp",
+].join(",");
+
 export function registerGetActivities(server: McpServer, client: IntervalsClient) {
   server.tool(
     "get_activities",
@@ -27,9 +36,9 @@ export function registerGetActivities(server: McpServer, client: IntervalsClient
         {
           oldest: oldest ?? daysAgo(30),
           newest: newest ?? today(),
+          fields: ACTIVITY_FIELDS,
         }
       );
-
       return {
         content: [{ type: "text" as const, text: JSON.stringify(data, null, 2) }],
       };

@@ -1,4 +1,4 @@
-// Intervals.icu API 客户端
+// Intervals.icu API client
 
 export class IntervalsClient {
   private baseUrl = "https://intervals.icu";
@@ -10,11 +10,11 @@ export class IntervalsClient {
     const athleteId = process.env.INTERVALS_ATHLETE_ID;
     if (!apiKey || !athleteId) {
       throw new Error(
-        "缺少环境变量：请设置 INTERVALS_API_KEY 和 INTERVALS_ATHLETE_ID"
+        "Missing environment variables: INTERVALS_API_KEY and INTERVALS_ATHLETE_ID are required"
       );
     }
     this.athleteId = athleteId;
-    // Basic Auth: username="API_KEY"(字面量), password=实际的 apiKey
+    // Basic Auth: username is literal "API_KEY", password is the actual apiKey
     this.authHeader =
       "Basic " + Buffer.from(`API_KEY:${apiKey}`).toString("base64");
   }
@@ -41,7 +41,7 @@ export class IntervalsClient {
 
     if (!res.ok) {
       throw new Error(
-        `Intervals.icu API 错误: ${res.status} ${res.statusText} - ${await res.text()}`
+        `Intervals.icu API error: ${res.status} ${res.statusText} - ${await res.text()}`
       );
     }
     return res.json() as Promise<T>;
@@ -71,7 +71,7 @@ export class IntervalsClient {
 
     if (!res.ok) {
       throw new Error(
-        `Intervals.icu API 错误: ${res.status} ${res.statusText} - ${await res.text()}`
+        `Intervals.icu API error: ${res.status} ${res.statusText} - ${await res.text()}`
       );
     }
     return res.json() as Promise<T>;
