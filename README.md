@@ -35,25 +35,6 @@
 
 ### 配置 MCP 客户端
 
-#### Kiro CLI
-
-编辑 `~/.kiro/settings/mcp.json`：
-
-```json
-{
-  "mcpServers": {
-    "ftpilot": {
-      "command": "npx",
-      "args": ["-y", "ftpilot"],
-      "env": {
-        "INTERVALS_API_KEY": "你的API Key",
-        "INTERVALS_ATHLETE_ID": "你的Athlete ID"
-      }
-    }
-  }
-}
-```
-
 #### Claude Desktop
 
 编辑 `~/Library/Application Support/Claude/claude_desktop_config.json`（macOS）：
