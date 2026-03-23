@@ -4,6 +4,7 @@ Your AI-powered endurance cycling coach — an MCP Server built on [Intervals.ic
 
 > FTP + Pilot = FTPilot 🚴‍♂️
 
+English | [中文](README.zh-CN.md)
 ## Features
 
 **8 MCP Tools:**
