@@ -108,9 +108,34 @@ Reference: <5% excellent, 5-10% good, 10-15% needs improvement, >15% weak aerobi
 ### ⚠️ Notes
 (Risks, weather, nutrition reminders if applicable)
 
-## Workout Description Format
+## Workout Description Format (Intervals.icu)
 
-Use Intervals.icu native format:
+### Syntax Rules
+
+1. Each step starts with `- `, format: `- [text] [duration] [intensity]`
+2. Duration: `m` = minutes, `s` = seconds, `h` = hours (`m` is NOT meters, use `mtr` for meters)
+3. Intensity: `55%` = FTP%, `220w` = absolute watts, `Z2` = power zone
+4. Repeats: `Nx` must be on its own line, followed by steps to repeat, with blank lines before and after
+5. Text before duration becomes a cue: `- Warmup 10m 55%`
+
+### ⚠️ Repeat Group Syntax (Critical)
+
+```
+WRONG ❌  - 5x4m 115% 4m 50%
+WRONG ❌  - 3x10m 90% 5m 55%
+
+CORRECT ✅
+5x
+- 4m 115%
+- 4m 50%
+```
+
+Rules:
+- `Nx` on its own line, NO `- ` prefix
+- Blank line before and after repeat block
+- Nested repeats not supported
+
+### Templates
 
 **Recovery:**
 ```
@@ -119,30 +144,44 @@ Use Intervals.icu native format:
 
 **Z2 Endurance:**
 ```
-- 10m 55%
-- 90m 65%
-- 10m 50%
+- Warmup 10m 55%
+
+- 90m 68%
+
+- Cooldown 10m 50%
 ```
 
 **Sweet Spot (SST):**
 ```
-- 15m 55%
-- 3x10m 90% 5m 55%
-- 10m 50%
+- Warmup 15m 55%
+
+3x
+- 10m 90%
+- 5m 55%
+
+- Cooldown 10m 50%
 ```
 
 **VO2max Intervals:**
 ```
-- 15m 55%
-- 5x4m 115% 4m 50%
-- 10m 50%
+- Warmup 15m 55%
+
+5x
+- 4m 115%
+- 4m 50%
+
+- Cooldown 10m 50%
 ```
 
 **Threshold:**
 ```
-- 15m 55%
-- 2x20m 100% 10m 55%
-- 10m 50%
+- Warmup 15m 55%
+
+2x
+- 20m 100%
+- 10m 55%
+
+- Cooldown 10m 50%
 ```
 
 ## Prohibited
