@@ -22,8 +22,10 @@ export function registerCreateEvent(server: McpServer, client: IntervalsClient) 
         .number()
         .optional()
         .describe("Planned duration in seconds (optional)"),
+      athlete_id: z.string().optional().describe("Athlete ID to create event for (default: env INTERVALS_ATHLETE_ID)"),
     },
-    async ({ start_date_local, name, description, type, category, moving_time }) => {
+    async ({ start_date_local, name, description, type, category, moving_time, athlete_id }) => {
+      const id = athlete_id ?? client.id;
       const body: Record<string, unknown> = {
         start_date_local,
         name,
@@ -34,7 +36,7 @@ export function registerCreateEvent(server: McpServer, client: IntervalsClient) 
       if (moving_time !== undefined) body.moving_time = moving_time;
 
       const data = await client.post<Event>(
-        `/api/v1/athlete/${client.id}/events`,
+        `/api/v1/athlete/${id}/events`,
         body,
         { upsertOnUid: "false" }
       );

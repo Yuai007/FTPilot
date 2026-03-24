@@ -3,16 +3,6 @@ import { z } from "zod";
 import { IntervalsClient } from "../client.js";
 import type { Event } from "../types.js";
 
-function today(): string {
-  return new Date().toISOString().slice(0, 10);
-}
-
-function daysFromNow(n: number): string {
-  const d = new Date();
-  d.setDate(d.getDate() + n);
-  return d.toISOString().slice(0, 10);
-}
-
 export function registerGetEvents(server: McpServer, client: IntervalsClient) {
   server.tool(
     "get_events",
@@ -20,15 +10,16 @@ export function registerGetEvents(server: McpServer, client: IntervalsClient) {
     {
       oldest: z.string().optional().describe("Start date ISO-8601 (default: today)"),
       newest: z.string().optional().describe("End date ISO-8601 inclusive (default: 6 days from now)"),
+      athlete_id: z.string().optional().describe("Athlete ID to query (default: env INTERVALS_ATHLETE_ID)"),
     },
-    async ({ oldest, newest }) => {
+    async ({ oldest, newest, athlete_id }) => {
+      const id = athlete_id ?? client.id;
       const params: Record<string, string> = {};
       if (oldest) params.oldest = oldest;
       if (newest) params.newest = newest;
-      // 不传 oldest/newest 时，API 默认行为就是 today + 6 days
 
       const data = await client.get<Event[]>(
-        `/api/v1/athlete/${client.id}/events`,
+        `/api/v1/athlete/${id}/events`,
         params
       );
 

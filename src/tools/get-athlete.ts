@@ -1,4 +1,5 @@
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
+import { z } from "zod";
 import { IntervalsClient } from "../client.js";
 import type { AthleteWithSettings } from "../types.js";
 
@@ -6,13 +7,15 @@ export function registerGetAthlete(server: McpServer, client: IntervalsClient) {
   server.tool(
     "get_athlete",
     "Get athlete profile including sport settings (FTP, power zones, HR zones, W', Pmax). Ride-specific settings are extracted from sportSettings array.",
-    {},
-    async () => {
+    {
+      athlete_id: z.string().optional().describe("Athlete ID to query (default: env INTERVALS_ATHLETE_ID). Coaches can use this to query other athletes."),
+    },
+    async ({ athlete_id }) => {
+      const id = athlete_id ?? client.id;
       const data = await client.get<AthleteWithSettings>(
-        `/api/v1/athlete/${client.id}`
+        `/api/v1/athlete/${id}`
       );
 
-      // 从 sportSettings 中过滤出 Ride 相关的设置
       const rideSettings = data.sportSettings?.find((s) =>
         s.types?.includes("Ride")
       );

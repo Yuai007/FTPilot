@@ -29,10 +29,12 @@ export function registerGetActivities(server: McpServer, client: IntervalsClient
     {
       oldest: z.string().optional().describe("Start date ISO-8601 (default: 30 days ago)"),
       newest: z.string().optional().describe("End date ISO-8601 inclusive (default: today)"),
+      athlete_id: z.string().optional().describe("Athlete ID to query (default: env INTERVALS_ATHLETE_ID)"),
     },
-    async ({ oldest, newest }) => {
+    async ({ oldest, newest, athlete_id }) => {
+      const id = athlete_id ?? client.id;
       const data = await client.get<Activity[]>(
-        `/api/v1/athlete/${client.id}/activities`,
+        `/api/v1/athlete/${id}/activities`,
         {
           oldest: oldest ?? daysAgo(30),
           newest: newest ?? today(),

@@ -14,10 +14,12 @@ export function registerGetPowerCurve(server: McpServer, client: IntervalsClient
         .describe(
           "Comma-separated curve specs (default: '150d'). Examples: '42d,150d', '42d,1y', 's0,s1'"
         ),
+      athlete_id: z.string().optional().describe("Athlete ID to query (default: env INTERVALS_ATHLETE_ID)"),
     },
-    async ({ curves }) => {
+    async ({ curves, athlete_id }) => {
+      const id = athlete_id ?? client.id;
       const data = await client.get<PowerCurveSet>(
-        `/api/v1/athlete/${client.id}/power-curves`,
+        `/api/v1/athlete/${id}/power-curves`,
         {
           type: "Ride",
           curves: curves ?? "150d",
