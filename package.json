@@ -1,6 +1,6 @@
 {
   "name": "ftpilot",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "FTPilot - AI Endurance Coach MCP Server powered by Intervals.icu",
   "main": "dist/index.js",
   "bin": {
