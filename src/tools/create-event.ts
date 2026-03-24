@@ -26,8 +26,10 @@ export function registerCreateEvent(server: McpServer, client: IntervalsClient) 
     },
     async ({ start_date_local, name, description, type, category, moving_time, athlete_id }) => {
       const id = athlete_id ?? client.id;
+      // Intervals.icu API requires datetime format (e.g. '2024-06-15T00:00:00')
+      const startDate = start_date_local.includes("T") ? start_date_local : `${start_date_local}T00:00:00`;
       const body: Record<string, unknown> = {
-        start_date_local,
+        start_date_local: startDate,
         name,
         description,
         type: type ?? "Ride",
